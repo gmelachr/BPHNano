@@ -28,83 +28,82 @@ vertexTable.svSrc = cms.InputTag("slimmedSecondaryVertices")
 
 
 
-nanoSequence = cms.Sequence(nanoMetadata + 
-                            cms.Sequence(vertexTask) +
-                            cms.Sequence(globalTablesTask)+ 
-                            cms.Sequence(vertexTablesTask) +
-                            cms.Sequence(pVertexTable)+
-                            cms.Sequence(nanoSequenceCommon)                           
-                          )
-
+#nanoSequence = cms.Sequence(nanoMetadata + 
+#                            cms.Sequence(vertexTask) +
+#                            cms.Sequence(globalTablesTask)+ 
+#                            cms.Sequence(vertexTablesTask) +
+#                            cms.Sequence(pVertexTable)+
+#                            cms.Sequence(nanoSequenceCommon)                           
+#                          )
+#
 
 
 def nanoAOD_customizeMC(process):
-    process.nanoSequence = cms.Sequence(process.nanoSequence +particleLevelBPHSequence + genParticleBPHSequence+ genParticleBPHTables )
+    process.nanoSequenceMC = cms.Sequence(process.nanoSequenceMC +particleLevelBPHSequence + genParticleBPHSequence+ genParticleBPHTables )
     return process
 
 
 
-def nanoAOD_customizeMuonBPH(process,isMC):
-    if isMC:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + muonBPHSequenceMC + muonBPHTablesMC)
-    else:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + muonBPHSequence + countTrgMuons + muonBPHTables)
+def nanoAOD_customizeMuonBPH(process):
+    process.load('PhysicsTools.BPHNano.muons_cff')
+    process.nanoSequenceMC = cms.Sequence( process.nanoSequence + muonBPHSequenceMC + muonBPHTablesMC)
+    process.nanoSequence = cms.Sequence( process.nanoSequence + muonBPHSequence + countTrgMuons + muonBPHTables)
     return process
 
 
 
-def nanoAOD_customizeDiMuonBPH(process, isMC):
-    if isMC:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + MuMuSequence + MuMuTables )
-    else:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + MuMuSequence + CountDiMuonBPH + MuMuTables)
+def nanoAOD_customizeDiMuonBPH(process):
+    process.load('PhysicsTools.BPHNano.MuMu_cff')
+    process.nanoSequenceMC = cms.Sequence( process.nanoSequence + MuMuSequence + MuMuTables )
+    process.nanoSequence = cms.Sequence( process.nanoSequence + MuMuSequence + CountDiMuonBPH + MuMuTables)
     return process
 
 
 
-def nanoAOD_customizeTrackBPH(process,isMC):
-    if isMC:
-       process.nanoSequence =  cms.Sequence( process.nanoSequence + tracksBPHSequenceMC + tracksBPHTablesMC)
-    else:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + tracksBPHSequence + tracksBPHTables)
+def nanoAOD_customizeTrackBPH(process):
+    process.load('PhysicsTools.BPHNano.tracks_cff')    
+    process.nanoSequenceMC =  cms.Sequence( process.nanoSequence + tracksBPHSequenceMC + tracksBPHTablesMC)
+    process.nanoSequence = cms.Sequence( process.nanoSequence + tracksBPHSequence + tracksBPHTables)
     return process
 
 
 
-def nanoAOD_customizeBToKLL(process,isMC):
-    if isMC:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + BToKMuMuSequence + BToKMuMuTables  )
-    else:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + BToKMuMuSequence +CountBToKmumu + BToKMuMuTables)
+def nanoAOD_customizeBToKLL(process):
+    process.load('PhysicsTools.BPHNano.BToKLL_cff')
+    process.nanoSequenceMC = cms.Sequence( process.nanoSequence + BToKMuMuSequence + BToKMuMuTables  )
+    process.nanoSequence = cms.Sequence( process.nanoSequence + BToKMuMuSequence +CountBToKmumu + BToKMuMuTables)
     return process
 
 
 
-def nanoAOD_customizeBToTrkTrkLL(process,isMC):
-    if isMC:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + DiTrackSequence + DiTrackTables + BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
-    else:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + DiTrackSequence + CountDiTrack + DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
-    return process
-
-
-
-
-def nanoAOD_customizeBToKshortLL(process, isMC):
-    if isMC:
-       process.nanoSequence = cms.Sequence( process.nanoSequence+ KshortToPiPiSequenceMC + KshortToPiPiTablesMC + BToKshortMuMuSequence + BToKshortMuMuTables  )
-    else:
-       process.nanoSequence = cms.Sequence( process.nanoSequence+ KshortToPiPiSequence + CountKshortToPiPi+ KshortToPiPiTables + BToKshortMuMuSequence + CountBToKshortMuMu +BToKshortMuMuTables  )
+def nanoAOD_customizeBToTrkTrkLL(process):
+    process.load('PhysicsTools.BPHNano.DiTrack_cff')    
+    process.load('PhysicsTools.BPHNano.BToTrkTrkLL_cff')    
+    process.nanoSequence = cms.Sequence( process.nanoSequence + DiTrackSequence + DiTrackTables + BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
+    process.nanoSequence = cms.Sequence( process.nanoSequence + DiTrackSequence + CountDiTrack + DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
     return process
 
 
 
 
-def nanoAOD_customizeBToXLL(process,isMC):
-    if isMC:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + BToKMuMuSequence + BToKMuMuTables + KshortToPiPiSequenceMC + KshortToPiPiTablesMC + BToKshortMuMuSequence + BToKshortMuMuTables + DiTrackSequence + DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
-    else:
-       process.nanoSequence = cms.Sequence( process.nanoSequence + BToKMuMuSequence + BToKMuMuTables + KshortToPiPiSequence + KshortToPiPiTables + BToKshortMuMuSequence +BToKshortMuMuTables + DiTrackSequence + DiTrackSequence +DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables )
+def nanoAOD_customizeBToKshortLL(process):
+    process.load('PhysicsTools.BPHNano.KshortToPiPi_cff')
+    process.load('PhysicsTools.BPHNano.BToKshortLL_cff') 
+    process.nanoSequenceMC = cms.Sequence( process.nanoSequence+ KshortToPiPiSequenceMC + KshortToPiPiTablesMC + BToKshortMuMuSequence + BToKshortMuMuTables  )
+    process.nanoSequence = cms.Sequence( process.nanoSequence+ KshortToPiPiSequence + CountKshortToPiPi+ KshortToPiPiTables + BToKshortMuMuSequence + CountBToKshortMuMu +BToKshortMuMuTables  )
+    return process
+
+
+
+
+def nanoAOD_customizeBToXLL(process):
+    process.load('PhysicsTools.BPHNano.BToKLL_cff')    
+    process.load('PhysicsTools.BPHNano.DiTrack_cff')
+    process.load('PhysicsTools.BPHNano.BToTrkTrkLL_cff')
+    process.load('PhysicsTools.BPHNano.KshortToPiPi_cff')
+    process.load('PhysicsTools.BPHNano.BToKshortLL_cff')      
+    process.nanoSequenceMC = cms.Sequence( process.nanoSequence + BToKMuMuSequence + BToKMuMuTables + KshortToPiPiSequenceMC + KshortToPiPiTablesMC + BToKshortMuMuSequence + BToKshortMuMuTables + DiTrackSequence + DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
+    process.nanoSequence = cms.Sequence( process.nanoSequence + BToKMuMuSequence + BToKMuMuTables + KshortToPiPiSequence + KshortToPiPiTables + BToKshortMuMuSequence +BToKshortMuMuTables + DiTrackSequence + DiTrackSequence +DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables )
     return process
 
 
