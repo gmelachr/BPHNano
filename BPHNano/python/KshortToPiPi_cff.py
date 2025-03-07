@@ -33,7 +33,7 @@ KshortToPiPiTable = cms.EDProducer(
         l_xy = Var("userFloat('l_xy')", float, doc = "post-fit vertex displacement on transverse plane"),
         l_xy_unc = Var("userFloat('l_xy_unc')", float, doc = "post-fit vertex uncertainty of the diplacement on the transverse plane"),
         prefit_mass = Var("userFloat('prefit_mass')", float, doc = "pre-fit mass of the vertex"),
-        vtx_x = Var("userFloatt('vtx_x')", float, doc = "x position of fitted vertex"),
+        vtx_x = Var("userFloat('vtx_x')", float, doc = "x position of fitted vertex"),
         vtx_y = Var("userFloat('vtx_y')", float, doc = "y position of fitted vertex"),
         vtx_z = Var("userFloat('vtx_z')", float, doc = "z position of fitted vertex"),
         vtx_cxx = Var("userFloat('vtx_cxx')", float, doc = "error x of fitted vertex"),

@@ -55,7 +55,7 @@ BToKmumuTable = cms.EDProducer(
         vtx_czx = Var("userFloat('vtx_czx')", float, doc = "error zx of fitted vertex"),
         vtx_czy = Var("userFloat('vtx_czy')", float, doc = "error zy of fitted vertex"),
         # Mll
-        mll_fullfit = Var("userFloat(('fitted_mll')", float, doc = "post-fit mass of the two muons"),
+        mll_fullfit = Var("userFloat('fitted_mll')", float, doc = "post-fit mass of the two muons"),
         # Cos(theta)
         cos2D     = Var("userFloat('cos_theta_2D')", float, doc = "cos 2D of pre-fit candidate wrt beamspot"),
         fit_cos2D = Var("userFloat('fitted_cos_theta_2D')", float, doc = "cos 2D of fitted vertex wrt beamspot"),

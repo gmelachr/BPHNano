@@ -136,6 +136,7 @@ void V0ReBuilder::produce(edm::StreamID, edm::Event &evt, edm::EventSetup const 
     cand.setCharge(v0daughter1.charge() + v0daughter2.charge());
     cand.addUserFloat("sv_chi2", fitter.chi2());
     cand.addUserFloat("sv_prob", fitter.prob());
+    cand.addUserFloat("fitted_mass", fitter.fitted_candidate().mass());
     cand.addUserFloat("massErr",
                       sqrt(fitter.fitted_candidate().kinematicParametersError().matrix()(6, 6)));
     cand.addUserFloat("cos_theta_2D",
