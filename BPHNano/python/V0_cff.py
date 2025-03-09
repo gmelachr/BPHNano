@@ -6,13 +6,27 @@ from PhysicsTools.BPHNano.common_cff import *
 KshortToPiPi = cms.EDProducer(
     'V0ReBuilder',
     V0s = cms.InputTag('slimmedKshortVertices'),
-    trkSelection = cms.string('pt > 0.35 && abs(eta) < 2.5 && trackHighPurity()'),
+    trkSelection = cms.string('pt > 0.35 && abs(eta) < 3.0 && trackHighPurity()'),
     V0Selection = cms.string('0.3 < mass && mass < 0.7'),
     postVtxSelection = cms.string('0.3 < mass && mass < 0.7'
                                   '&& userFloat("sv_prob") > 0.0001'),
     beamSpot = cms.InputTag("offlineBeamSpot"),
-    track_match = cms.InputTag('tracksBPH', 'SelectedTracks')
+    track_match = cms.InputTag('tracksBPH', 'SelectedTracks'),
+    isLambda = cms.bool(False)
 )
+
+LambdaToProtonPi = cms.EDProducer(
+    'V0ReBuilder',
+    V0s = cms.InputTag('slimmedLambdaVertices'),
+    trkSelection = cms.string('pt > 0.35 && abs(eta) < 3.0 && trackHighPurity()'),
+    V0Selection = cms.string('1 < mass && mass < 1.2'),
+    postVtxSelection = cms.string('1 < mass && mass < 1.17'
+                                  '&& userFloat("sv_prob") > 0.0001'),
+    beamSpot = cms.InputTag("offlineBeamSpot"),
+    track_match = cms.InputTag('tracksBPH', 'SelectedTracks'),
+    isLambda = cms.bool(True)    
+)
+
 
 ########################### Tables ###########################
 
@@ -58,12 +72,24 @@ KshortToPiPiTable = cms.EDProducer(
     )
 )
 
-
 CountKshortToPiPi = cms.EDFilter("PATCandViewCountFilter",
     minNumber = cms.uint32(1),
     maxNumber = cms.uint32(999999),
     src = cms.InputTag('KshortToPiPi','SelectedV0Collection')
 )
+
+LambdaToProtonPiTable = KshortToPiPiTable.clone(
+    src = cms.InputTag('LambdaToProtonPi','SelectedV0Collection'),
+    name = cms.string("Lambda"),
+    doc = cms.string("Lambda Variable")
+)
+
+CountLambdaToProtonPi = cms.EDFilter("PATCandViewCountFilter",
+    minNumber = cms.uint32(1),
+    maxNumber = cms.uint32(999999),
+    src = cms.InputTag('LambdaToProtonPi','SelectedV0Collection')
+)
+
 
 KshortPiPiBPHMCMatch = cms.EDProducer("MCMatcher",            # cut on deltaR, deltaPt/Pt; pick best by deltaR
     src         = KshortToPiPiTable.src,                      # final reco collection
@@ -77,6 +103,19 @@ KshortPiPiBPHMCMatch = cms.EDProducer("MCMatcher",            # cut on deltaR, d
     resolveByMatchQuality = cms.bool(True),                   # False = just match input in order; True = pick lowest deltaR pair first
 )
 
+LambdaProtonPiBPHMCMatch = cms.EDProducer("MCMatcher",        # cut on deltaR, deltaPt/Pt; pick best by deltaR
+    src         = LambdaToProtonPiTable.src,                  # final reco collection
+    matched     = cms.InputTag("finalGenParticlesBPH"),       # final mc-truth particle collection
+    mcPdgId     = cms.vint32(3122),                           # one or more PDG ID (13 = mu); absolute values (see below)
+    checkCharge = cms.bool(False),                            # True = require RECO and MC objects to have the same charge
+    mcStatus    = cms.vint32(2),                              # PYTHIA status code (1 = stable, 2 = shower, 3 = hard scattering)
+    maxDeltaR   = cms.double(0.3),                            # Minimum deltaR for the match
+    maxDPtRel   = cms.double(1.0),                            # Minimum deltaPt/Pt for the match
+    resolveAmbiguities    = cms.bool(True),                   # Forbid two RECO objects to match to the same GEN object
+    resolveByMatchQuality = cms.bool(True),                   # False = just match input in order; True = pick lowest deltaR pair first
+)
+
+
 KshortPiPiBPHMCTable = cms.EDProducer("CandMCMatchTableProducerBPH",
     recoObjects = KshortToPiPiTable.src,
     genParts = cms.InputTag("finalGenParticlesBPH"),
@@ -88,7 +127,27 @@ KshortPiPiBPHMCTable = cms.EDProducer("CandMCMatchTableProducerBPH",
     docString = cms.string("MC matching to status==1 muons"),
 )
 
+
+LambdaProtonPiBPHMCTable = cms.EDProducer("CandMCMatchTableProducerBPH",
+    recoObjects = KshortToPiPiTable.src,
+    genParts = cms.InputTag("finalGenParticlesBPH"),
+    mcMap = cms.InputTag("LambdaProtonPiBPHMCMatch"),
+    objName = LambdaToProtonPiTable.name,
+    objType = cms.string("Other"),
+    objBranchName = cms.string("genPart"),
+    genBranchName = cms.string("lambda"),
+    docString = cms.string("MC matching to status==1 muons"),
+)
+
 KshortToPiPiSequence = cms.Sequence( KshortToPiPi )
 KshortToPiPiSequenceMC = cms.Sequence( KshortToPiPi +KshortPiPiBPHMCMatch)
 KshortToPiPiTables = cms.Sequence( KshortToPiPiTable)
 KshortToPiPiTablesMC = cms.Sequence( KshortToPiPiTable+KshortPiPiBPHMCTable)
+
+
+LambdaToProtonPiSequence = cms.Sequence( LambdaToProtonPi )
+LambdaToProtonPiSequenceMC = cms.Sequence( LambdaToProtonPi + LambdaProtonPiBPHMCMatch)
+LambdaToProtonPiTables = cms.Sequence( LambdaToProtonPiTable)
+LambdaToProtonPiTablesMC = cms.Sequence( LambdaToProtonPiTable+LambdaProtonPiBPHMCTable)
+
+

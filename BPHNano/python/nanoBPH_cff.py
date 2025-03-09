@@ -18,10 +18,10 @@ from PhysicsTools.BPHNano.muons_cff import *
 from PhysicsTools.BPHNano.MuMu_cff import *
 from PhysicsTools.BPHNano.tracks_cff import *
 from PhysicsTools.BPHNano.DiTrack_cff import *
-from PhysicsTools.BPHNano.KshortToPiPi_cff import *
+from PhysicsTools.BPHNano.V0_cff import *
 from PhysicsTools.BPHNano.BToKLL_cff import *
 from PhysicsTools.BPHNano.BToTrkTrkLL_cff import *
-from PhysicsTools.BPHNano.BToKshortLL_cff import *
+from PhysicsTools.BPHNano.BToV0LL_cff import *
 
 
 vertexTable.svSrc = cms.InputTag("slimmedSecondaryVertices")
@@ -79,7 +79,7 @@ def nanoAOD_customizeBToKLL(process):
 def nanoAOD_customizeBToTrkTrkLL(process):
     process.load('PhysicsTools.BPHNano.DiTrack_cff')    
     process.load('PhysicsTools.BPHNano.BToTrkTrkLL_cff')    
-    process.nanoSequence = cms.Sequence( process.nanoSequence + DiTrackSequence + DiTrackTables + BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
+    process.nanoSequenceMC = cms.Sequence( process.nanoSequence + DiTrackSequence + DiTrackTables + BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
     process.nanoSequence = cms.Sequence( process.nanoSequence + DiTrackSequence + DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
     return process
 
@@ -87,10 +87,17 @@ def nanoAOD_customizeBToTrkTrkLL(process):
 
 
 def nanoAOD_customizeBToKshortLL(process):
-    process.load('PhysicsTools.BPHNano.KshortToPiPi_cff')
-    process.load('PhysicsTools.BPHNano.BToKshortLL_cff') 
+    process.load('PhysicsTools.BPHNano.V0_cff')
+    process.load('PhysicsTools.BPHNano.BToV0LL_cff') 
     process.nanoSequenceMC = cms.Sequence( process.nanoSequence+ KshortToPiPiSequenceMC + KshortToPiPiTablesMC + BToKshortMuMuSequence + BToKshortMuMuTables  )
     process.nanoSequence = cms.Sequence( process.nanoSequence+ KshortToPiPiSequence + KshortToPiPiTables + BToKshortMuMuSequence + BToKshortMuMuTables  )
+    return process
+
+def nanoAOD_customizeLambdabToLambdaLL(process):
+    process.load('PhysicsTools.BPHNano.V0_cff')
+    process.load('PhysicsTools.BPHNano.BToV0LL_cff')
+    process.nanoSequenceMC = cms.Sequence( process.nanoSequence+ LambdaToProtonPiSequenceMC + LambdaToProtonPiTablesMC + LambdabToLambdaMuMuSequence + LambdabToLambdaMuMuTables  )
+    process.nanoSequence = cms.Sequence( process.nanoSequence+ LambdaToProtonPiSequence + LambdaToProtonPiTables + LambdabToLambdaMuMuSequence + LambdabToLambdaMuMuTables  )
     return process
 
 
@@ -100,10 +107,10 @@ def nanoAOD_customizeBToXLL(process):
     process.load('PhysicsTools.BPHNano.BToKLL_cff')    
     process.load('PhysicsTools.BPHNano.DiTrack_cff')
     process.load('PhysicsTools.BPHNano.BToTrkTrkLL_cff')
-    process.load('PhysicsTools.BPHNano.KshortToPiPi_cff')
-    process.load('PhysicsTools.BPHNano.BToKshortLL_cff')      
-    process.nanoSequenceMC = cms.Sequence( process.nanoSequence + BToKMuMuSequence + BToKMuMuTables + KshortToPiPiSequenceMC + KshortToPiPiTablesMC + BToKshortMuMuSequence + BToKshortMuMuTables + DiTrackSequence + DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
-    process.nanoSequence = cms.Sequence( process.nanoSequence + BToKMuMuSequence + BToKMuMuTables + KshortToPiPiSequence + KshortToPiPiTables + BToKshortMuMuSequence +BToKshortMuMuTables + DiTrackSequence + DiTrackSequence +DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables )
+    process.load('PhysicsTools.BPHNano.V0_cff')
+    process.load('PhysicsTools.BPHNano.BToV0LL_cff')      
+    process.nanoSequenceMC = cms.Sequence( process.nanoSequence + BToKMuMuSequence + BToKMuMuTables + KshortToPiPiSequenceMC + KshortToPiPiTablesMC + BToKshortMuMuSequence + BToKshortMuMuTables + LambdaToProtonPiSequenceMC + LambdaToProtonPiTablesMC + LambdabToLambdaMuMuSequence + LambdabToLambdaMuMuTables + DiTrackSequence + DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables  )
+    process.nanoSequence = cms.Sequence( process.nanoSequence + BToKMuMuSequence + BToKMuMuTables + KshortToPiPiSequence + KshortToPiPiTables + BToKshortMuMuSequence +BToKshortMuMuTables + LambdaToProtonPiSequence + LambdaToProtonPiTables + LambdabToLambdaMuMuSequence + LambdabToLambdaMuMuTables + DiTrackSequence + DiTrackSequence +DiTrackTables+ BToTrkTrkMuMuSequence + BToTrkTrkMuMuTables )
     return process
 
 
