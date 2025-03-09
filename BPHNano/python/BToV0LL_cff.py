@@ -18,7 +18,7 @@ BToKshortMuMu = cms.EDProducer(
     postVtxSelection = cms.string('4.7 < userFloat("fitted_mass") && userFloat("fitted_mass") < 6. '
                                   '&& userFloat("sv_prob") > 0.001 && -0.045<userFloat("v0_svip2d") && userFloat("v0_svip2d")<0.045'
                                   '&& userFloat("fitted_cos_theta_2D") > 0.9'),
-    dileptonMassContraint = cms.double(-1)
+    dileptonMassContraint = cms.bool(True)
 )
 
 LambdabToLambdaMuMu = cms.EDProducer(
@@ -36,7 +36,7 @@ LambdabToLambdaMuMu = cms.EDProducer(
     postVtxSelection = cms.string('4.9 < userFloat("fitted_mass") && userFloat("fitted_mass") < 6.3 '
                                   '&& userFloat("sv_prob") > 0.001 && -0.045<userFloat("v0_svip2d") && userFloat("v0_svip2d")<0.045'
                                   '&& userFloat("fitted_cos_theta_2D") > 0.9'),
-    dileptonMassContraint = cms.double(-1)
+    dileptonMassContraint = cms.bool(True)
 )
 
 
@@ -101,6 +101,13 @@ BToKshortMuMuTable = cms.EDProducer(
         l1_iso04          = Var("userFloat('l1_iso04')", float, doc = "leading muon isolation DR<0.4"),
         l2_iso04          = Var("userFloat('l2_iso04')", float, doc = "suleading muon isolation DR<0.4"),
         V0_iso04      = Var("userFloat('v0_iso04')", float, doc = "V0 isolation DR<0.4"),
+        constraint_sv_prob     = Var("userFloat('constraint_sv_prob')", float, doc = "B vertex probability after the dimuon mass constraint"),
+        constraint_pt   = Var("userFloat('constraint_pt')", float, doc = "B pt after the dimuon mass constraint"),
+        constraint_eta  = Var("userFloat('constraint_eta')", float, doc = "B eta after the dimuon mass constraint"),
+        constraint_phi  = Var("userFloat('constraint_phi')", float, doc = "B phi after the dimuon mass constraint"),
+        constraint_mass = Var("userFloat('constraint_mass')", float, doc = "B mass after the dimuon mass constraint"),
+        constraint_massErr  = Var("userFloat('constraint_massErr')", float, doc = "mass uncertainty of the dimuon mass constraint"),
+        constraint_mll  = Var("userFloat('constraint_mll')", float, doc = "dimuon mass after the dimuon mass constraint"),
     )
 )
 

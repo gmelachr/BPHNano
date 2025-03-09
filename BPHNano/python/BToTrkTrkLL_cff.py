@@ -13,7 +13,7 @@ BToTrkTrkMuMu = cms.EDProducer(
     beamSpot = cms.InputTag("offlineBeamSpot"),
     preVtxSelection = cms.string('userFloat("min_dr") > 0.03 && ((4.5<userFloat("unfitted_B_mass_KK") && userFloat("unfitted_B_mass_KK")<6.0 ) || (4.5<userFloat("unfitted_B_mass_Kpi") && userFloat("unfitted_B_mass_Kpi")<6.0 ) || (4.5<userFloat("unfitted_B_mass_piK") && userFloat("unfitted_B_mass_piK")<6.0))'),
     postVtxSelection = cms.string('userFloat("sv_prob") > 1.e-3 && userFloat("fitted_cos_theta_2D") >= 0.90 && ( (4.6<userFloat("fitted_mass_KK") && userFloat("fitted_mass_KK")<5.8) || (4.6<userFloat("fitted_mass_Kpi") && userFloat("fitted_mass_Kpi")<5.8 ) || (4.6<userFloat("fitted_mass_piK") && userFloat("fitted_mass_piK")<5.8)) && -0.045<userFloat("trk1_svip2d") && userFloat("trk1_svip2d")<0.045 && -0.045<userFloat("trk2_svip2d") && userFloat("trk2_svip2d")<0.045'),
-    dileptonMassContraint = cms.double(-1)
+    dileptonMassContraint = cms.bool(True)
 )
 
 ########################### Tables ###########################
@@ -93,6 +93,17 @@ BToTrkTrkMuMuTable = cms.EDProducer(
         trk1_svip2d_err = Var("userFloat('trk1_svip2d_err')", float, doc = "uncertainty of 2D IP of the leading track wrt the dimuon vertex"),
         trk2_svip2d     = Var("userFloat('trk2_svip2d')", float, doc = "2D IP of the subleading track wrt the dimuon vertex"),
         trk2_svip2d_err = Var("userFloat('trk2_svip2d_err')", float, doc = "uncertainty of 2D IP of the subleading track wrt the dimuon vertex"),
+        constraint_sv_prob     = Var("userFloat('constraint_sv_prob')", float, doc = "B vertex probability after the dimuon mass constraint"),
+        constraint_pt   = Var("userFloat('constraint_pt')", float, doc = "B pt after the dimuon mass constraint"),
+        constraint_eta  = Var("userFloat('constraint_eta')", float, doc = "B eta after the dimuon mass constraint"),
+        constraint_phi  = Var("userFloat('constraint_phi')", float, doc = "B phi after the dimuon mass constraint"),
+        constraint_mass_KK = Var("userFloat('constraint_mass_KK')", float, doc = "B mass with KK mass hypothesis after the dimuon mass constraint"),
+        constraint_massErr_KK  = Var("userFloat('constraint_massErr_KK')", float, doc = "mass uncertainty for the KK mass hypothesis of the dimuon mass constraint"),
+        constraint_mass_Kpi = Var("userFloat('constraint_mass_Kpi')", float, doc = "B mass with Kpi mass hypothesis after the dimuon mass constraint"),
+        constraint_massErr_Kpi  = Var("userFloat('constraint_massErr_Kpi')", float, doc = "mass uncertainty for the Kpi mass hypothesis of the dimuon mass constraint"),
+        constraint_mass_piK = Var("userFloat('constraint_mass_piK')", float, doc = "B mass with piK mass hypothesis after the dimuon mass constraint"),
+        constraint_massErr_piK  = Var("userFloat('constraint_massErr_piK')", float, doc = "mass uncertainty for the piK mass hypothesis of the dimuon mass constraint"),
+        constraint_mll  = Var("userFloat('constraint_mll')", float, doc = "dimuon mass after the dimuon mass constraint"),
     )
 )
 
