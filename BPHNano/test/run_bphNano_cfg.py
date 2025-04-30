@@ -33,7 +33,7 @@ options.register('globalTag', '130X_dataRun3_Prompt_v3',
     "Global tag"
 )
 
-options.register('isMC', False,
+options.register('isMC', True,
     VarParsing.multiplicity.singleton,
     VarParsing.varType.bool,
     "Adds gen info/matching"
@@ -186,21 +186,21 @@ if options.isMC:
    process = nanoAOD_customizeMC(process)
 
 process = nanoAOD_customizeCommon(process)
-process = nanoAOD_customizeMuonBPH(process,options.isMC)
-process = nanoAOD_customizeDiMuonBPH(process,options.isMC)
-process = nanoAOD_customizeTrackBPH(process,options.isMC)
+process = nanoAOD_customizeMuonBPH(process)
+process = nanoAOD_customizeDiMuonBPH(process)
+process = nanoAOD_customizeTrackBPH(process)
 
 if options.decay == "KLL":
-   process = nanoAOD_customizeBToKLL(process,options.isMC)
+   process = nanoAOD_customizeBToKLL(process)
 
 elif options.decay == "TrkTrkLL":
-   process = nanoAOD_customizeBToTrkTrkLL(process,options.isMC)
+   process = nanoAOD_customizeBToTrkTrkLL(process)
 
 elif options.decay == "KshortLL": 
-   process = nanoAOD_customizeBToKshortLL(process,options.isMC)
+   process = nanoAOD_customizeBToKshortLL(process)
 
 elif options.decay == "all":
-   process = nanoAOD_customizeBToXLL(process,options.isMC)
+   process = nanoAOD_customizeBPH(process)
 
 else:
 #   print("Undefined decay option")
