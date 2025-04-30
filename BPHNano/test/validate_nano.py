@@ -1,5 +1,5 @@
 import uproot
-import pandas as pd
+import pandas
 import numpy as np
 import awkward
 from argparse import ArgumentParser
@@ -40,7 +40,7 @@ color_code = {
   'black' : '%s',
 }
 def log(txt, color = 'black'):
-  print color_code[color] % txt
+#  print (color_code[color] % txt)
   logfile.write('<code style="color: %s">%s</code>\n' % (color, to_html(txt)))
 
 
